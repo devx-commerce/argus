@@ -58,8 +58,9 @@ As a Claude Code skill (recommended):
 git clone git@github.com:devx-commerce/argus.git ~/.claude/skills/argus
 ```
 
-The skill auto-triggers on requests like "scan my laptop", "am I compromised", "check for
-crypto mining", or "run argus".
+Once installed, run it in Claude Code with the `/argus` slash command, which executes the
+skill directly. It also auto-triggers on requests like "scan my laptop", "am I compromised",
+"check for crypto mining", or "run argus".
 
 Standalone:
 

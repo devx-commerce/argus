@@ -25,6 +25,9 @@ host-compromise, persistence, crypto-miner, and patch-posture checks.
 
 ## How to run
 
+In Claude Code, invoke this skill with the `/argus` slash command (or just ask to scan the
+machine). The skill then runs the engine:
+
 ```
 scan.sh                 # default: read-only, fully local, macOS or Linux
 scan.sh --trivy         # also run pinned Trivy (CRITICAL only); needs install-trivy.sh first
