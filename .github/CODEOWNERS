@@ -1,0 +1,3 @@
+# Changes to argus require review from the security team.
+# (The team needs write access to this repo for code-owner review to enforce.)
+* @devx-commerce/security-admins
