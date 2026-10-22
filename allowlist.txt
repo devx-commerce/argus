@@ -1,0 +1,58 @@
+# argus allowlist - expected security/dev tooling on this operator's machines.
+# One pattern per line (shell case-glob, matched case-insensitively against a process path/name,
+# listening-port owner, or binary basename). Matches are NOT suppressed - they are moved to an
+# "expected tooling" section of the report so they do not drown real signal.
+# Lines starting with # are comments. Edit freely per host.
+#
+# -- offensive / security tooling (expected to look "suspicious")
+*burpsuite*
+*Burp Suite*
+*/nmap
+*/masscan
+*/sqlmap
+*/nuclei
+*/feroxbuster
+*/ffuf
+*/gobuster
+*/dalfox
+*/arjun
+*/trufflehog
+*/gitleaks
+*/metasploit*
+*/msfconsole
+*/msfvenom
+*/hashcat
+*/john
+*/hydra
+*/responder*
+*/bloodhound*
+*/impacket*
+*stegseek*
+*steghide*
+*/nc
+*/ncat
+*/socat
+#
+# -- normal dev / cloud tooling that uses network + sometimes high CPU
+*/node
+*/python3
+*/ruby
+*/go
+*/cargo
+*/docker*
+*/com.docker*
+*/colima
+*/aws
+*/gcloud
+*/terraform
+*/kubectl
+*/ssh
+*/mosh*
+*/ollama
+*Code Helper*
+*/Code*
+*Cursor*
+*/java
+#
+# -- editor extensions you intentionally run (add known-good ids here)
+# (leave blank by default; color-picker-universal is NOT here on purpose - it is a known-bad IOC)

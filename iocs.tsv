@@ -1,0 +1,38 @@
+# argus IOC dataset - October 2026 supply-chain / credential-theft wave
+# Columns (tab-separated): severity  category  match_type  value  note
+# match_type values understood by scan.sh:
+#   fname    filename to locate under scan roots (filesystem only, never executed)
+#   pippkg   python dist-info directory name fragment e.g. litellm-1.107.0  (detected from filesystem, pip is NEVER run)
+#   npmpkg   name@version to match in lockfiles / node_modules package.json
+#   netioc   IP or domain checked against live sockets, /etc/hosts, cron, launchd, systemd (reported redacted as file:line)
+#   strioc   high-signal string checked ONLY in low-risk files (lockfiles, hosts, cron, launchd, systemd, rc files); line content redacted
+#   vsext    editor-extension folder prefix checked under ~/.vscode ~/.cursor ~/.vscode-server extensions
+# severity: CRIT HIGH MED LOW INFO
+#
+# -- LiteLLM 1.107.0 (PyPI + Docker), credential stealer + backdoor
+CRIT	litellm-1107	fname	cook.pth	LiteLLM 1.107.0 payload loader (.pth auto-executes on every python start)
+CRIT	litellm-1107	fname	cook.py	LiteLLM 1.107.0 credential stealer
+CRIT	litellm-1107	fname	sitecustomize.py	LiteLLM 1.107.0 backdoor (auto-executes on every python start) - may also be benign; correlate with cook.*
+HIGH	litellm-1107	pippkg	litellm-1.107.0	Compromised LiteLLM release present on disk (safe: 1.106.2)
+MED	litellm-1107	strioc	www.litellm.dev	LiteLLM 1.107.0 exfil lookalike host (real project is litellm.ai)
+#
+# -- Tensorlake npm 0.5.144 (Shai-Hulud / ChainDrop worm)
+HIGH	tensorlake	npmpkg	tensorlake@0.5.144	Compromised Tensorlake worm release (safe: 0.5.143)
+HIGH	tensorlake	npmpkg	tensorlake-native-darwin-arm64@0.5.144	Tensorlake worm same build run
+HIGH	tensorlake	npmpkg	tensorlake-native-darwin-x64@0.5.144	Tensorlake worm same build run
+HIGH	tensorlake	npmpkg	tensorlake-native-linux-x64@0.5.144	Tensorlake worm same build run
+HIGH	tensorlake	npmpkg	tensorlake-native-linux-arm64@0.5.144	Tensorlake worm same build run
+HIGH	tensorlake	fname	Math_Symbol.js	Tensorlake worm payload component (correlate with setup.mjs in same dir)
+MED	tensorlake	strioc	tensorlake-0.5.144.tgz	Tensorlake worm artifact referenced in npm cache / lockfile
+#
+# -- SubQuery @subql/common 5.8.3 (infostealer + C2)
+HIGH	subquery	npmpkg	@subql/common@5.8.3	Compromised SubQuery release (often a transitive dependency)
+HIGH	subquery	netioc	ci-artifacts.dev	SubQuery 5.8.3 command-and-control domain
+#
+# -- OVHcloud CLI backdoored binaries (GlassWorm)
+HIGH	ovhcloud	netioc	162.33.177.177	OVHcloud CLI / GlassWorm command-and-control IP
+HIGH	ovhcloud	strioc	BjVeAjPrSKFiingBn4vZvghsGj9KCE8AJVtbc9S8o8SC	GlassWorm Solana wallet string
+CRIT	ovhcloud	vsext	color-picker-universal	GlassWorm malicious editor extension (bad version 2.8.91) - initial access vector
+#
+# -- Rank Math PRO 3.0.123 (WordPress plugin supply-chain)
+HIGH	rankmath	fname	class-wp-cache-util.php	Rank Math PRO 3.0.123 fake WP core file (legit path is NOT wp-includes)

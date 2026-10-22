@@ -1,0 +1,7 @@
+# argus never commits scan output
+reports/
+*.stdout
+findings.tsv
+report.txt
+trivy.txt
+.DS_Store
